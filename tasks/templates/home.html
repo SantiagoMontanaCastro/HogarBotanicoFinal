@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="container py-5">
+
+    <section class="card card-body">
+        <h1 class="text-center">Hogar botanico</h1>
+        <p>Hogar Botánico es una plataforma dedicada a los amantes de las plantas, que ofrece una experiencia completa para quienes desean aprender, cuidar y ampliar su colección botánica. Desde plantas decorativas hasta accesorios esenciales, nuestro catálogo está diseñado para cubrir todas las necesidades de jardinería. Con funcionalidades que permiten a los usuarios gestionar sus propias plantas, recibir notificaciones de riego y personalizar su experiencia, Hogar Botánico facilita el cuidado de la naturaleza en el hogar. Además, la plataforma está equipada con opciones de compra simples y rápidas, listas de favoritos, y medidas avanzadas de seguridad para proteger la información de los usuarios.</p>
+        <div class="text-center">
+            {% if user.is_authenticated %}
+
+            {% else %}
+            <a class="btn btn-success" href="/singin"> 
+                Ingresar
+            </a>
+            <a class="btn btn-success" href="/singup"> 
+                Registarse</a>
+                {% endif %}
+        </div>
+    
+    
+    </section>
+
+</main>
+{% endblock %}
