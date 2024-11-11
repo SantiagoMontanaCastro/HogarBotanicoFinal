@@ -9,6 +9,7 @@ admin.site.register(Plants)
 admin.site.register(Order)
 admin.site.register(OrderItem)
 admin.site.register(ShippingAddress)
+admin.site.register(FavoritePlant   )
 # Register your models here.
 
 

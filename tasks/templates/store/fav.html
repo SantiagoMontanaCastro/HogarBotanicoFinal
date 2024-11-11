@@ -1,1 +1,24 @@
-<h3>Favoritos</h3>
+{% extends 'store/main.html' %}
+{% block content %}
+<main class="container">
+    <h2>Tus Plantas Favoritas</h2>
+    <div class="row">
+        {% if message %}
+            <p>{{ message }}</p>
+        {% endif %}
+        {% for favorite in favorites %}
+        <div class="col-lg-4">
+            <img class="thumbnail" src="{{ favorite.plant.image.url }}">
+            <div class="box-element product">
+                <h6><strong>{{ favorite.plant.name }}</strong></h6>
+                <p>{{ favorite.plant.description }}</p>
+                <a class="btn btn-outline-success" href="#">Ver</a>
+                <!-- Botón para eliminar de favoritos -->
+                <a class="btn btn-outline-danger" href="{% url 'fav' %}?remove_id={{ favorite.plant.id }}">Eliminar de Favoritos</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</main>
+{% endblock content %}
+

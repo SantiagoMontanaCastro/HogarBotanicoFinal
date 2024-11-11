@@ -2,40 +2,18 @@
 {% load static %}
 {% block content %}
 <main class="container">
-<div class="row">
-    <div class= "col-lg-4">
-        <img class="thumbnail" src="{% static 'images/plant1.jpeg' %}">
-        <div class="box-element product">
-            <h6><Strong>Acetillo</Strong></h6>
-            <hr>
-            <button class="btn btn-outline-secondary add-btn">Añadir a favoritos</button>
-            <a class="btn btn-outline-success" href="#">Ver</a>
-            
+    <div class="row">
+        {% for plant in plants %}
+        <div class="col-lg-4">
+            <img class="thumbnail" src="{{ plant.image.url }}">  <!-- 'plant', no 'plants' -->
+            <div class="box-element product">
+                <h6><strong>{{ plant.name }}</strong></h6>  <!-- 'plant', no 'plants' -->
+                <hr>
+                <a class="btn btn-outline-secondary add-btn" href="{% url 'fav' %}?plant_id={{ plant.id }}">Añadir a favoritos</a>   
+                <a class="btn btn-outline-success" href="#">Ver</a>
+            </div>
         </div>
-
+        {% endfor %}
     </div>
-    <div class= "col-lg-4">
-        <img class="thumbnail" src="{% static 'images/placeholder.png' %}">
-        <div class="box-element product">
-            <h6><Strong>Product</Strong></h6>
-            <hr>
-            <button class="btn btn-outline-secondary add-btn">Añadir a favoritos</button>
-            <a class="btn btn-outline-success" href="#">Ver</a>
-            
-        </div>
-
-    </div>
-    <div class= "col-lg-4">
-        <img class="thumbnail" src="{% static 'images/placeholder.png' %}">
-        <div class="box-element product">
-            <h6><Strong>Product</Strong></h6>
-            <hr> 
-            <button class="btn btn-outline-secondary add-btn">Añadir a favoritos</button>
-            <a class="btn btn-outline-success" href="#">Ver</a>
-      
-        </div>
-
-    </div>
-</div>
 </main>
 {% endblock content %}

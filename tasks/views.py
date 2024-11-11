@@ -7,7 +7,8 @@ from .forms import TaskForm
 from .models import *
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
-
+from django.http import JsonResponse
+import json
 # Create your views here.
 
 
@@ -132,26 +133,118 @@ def singin(request):
 
 
 def store(request):
+
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(
+            customer=customer, complete=False)
+        items = order.orderitem_set.all()
+        cartItems = order.get_cart_items
+    else:
+
+        items = []
+        order = {'get_cart_total': 0, 'get_cart_items': 0}
+        cartItems = order['get_cart_items']
+
     products = Product.objects.all()
-    context = {'products': products}
+    context = {'products': products, 'cartItems': cartItems}
     return render(request, 'store/store.html', context)
 
 
 def cart(request):
-    context = {}
-    return render(request, 'store/Cart.html', context)
+
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(
+            customer=customer, complete=False)
+        items = order.orderitem_set.all()
+        cartItems = order.get_cart_items
+    else:
+        # Create empty cart for now for non-logged in user
+        items = []
+        order = {'get_cart_total': 0, 'get_cart_items': 0}
+        cartItems = order['get_cart_items']
+
+    context = {'items': items, 'order': order, 'cartItems': cartItems}
+    return render(request, 'store/cart.html', context)
 
 
 def checkout(request):
-    context = {}
-    return render(request, 'store/Checkout.html', context)
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(
+            customer=customer, complete=False)
+        items = order.orderitem_set.all()
+        cartItems = order.get_cart_items
+    else:
+
+        items = []
+        order = {'get_cart_total': 0, 'get_cart_items': 0}
+        cartItems = order['get_cart_items']
+
+    context = {'items': items, 'order': order, 'cartItems': cartItems}
+    return render(request, 'store/checkout.html', context)
 
 
 def fav(request):
-    context = {}
+    plant_id = request.GET.get('plant_id')
+    if plant_id:
+        plant = Plants.objects.get(id=plant_id)
+        favorite, created = FavoritePlant.objects.get_or_create(
+            user=request.user, plant=plant)
+        if created:
+            message = f"{plant.name} se ha añadido a tus favoritos."
+        else:
+            message = f"{plant.name} ya estaba en tus favoritos."
+    else:
+        message = ""
+
+    # Verifica si hay una planta para eliminar
+    remove_plant_id = request.GET.get('remove_id')
+    if remove_plant_id:
+        plant_to_remove = get_object_or_404(Plants, id=remove_plant_id)
+        favorite_to_remove = FavoritePlant.objects.filter(
+            user=request.user, plant=plant_to_remove)
+        favorite_to_remove.delete()
+        message = f"{plant_to_remove.name} ha sido eliminado de tus favoritos."
+
+    favorites = FavoritePlant.objects.filter(user=request.user)
+    context = {
+        'favorites': favorites,
+        'message': message
+    }
     return render(request, 'store/fav.html', context)
+
 
 def plants(request):
     plantas = Plants.objects.all()
-    context = {'plants': plants}  # Asegúrate de que el nombre es 'plantas'
+    context = {'plants': plantas}
     return render(request, 'store/plants.html', context)
+
+
+def updateItem(request):
+    data = json.loads(request.body)
+    productId = data['productId']
+    action = data['action']
+    print('Action:', action)
+    print('Product:', productId)
+
+    customer = request.user.customer
+    product = Product.objects.get(id=productId)
+    order, created = Order.objects.get_or_create(
+        customer=customer, complete=False)
+
+    orderItem, created = OrderItem.objects.get_or_create(
+        order=order, product=product)
+
+    if action == 'add':
+        orderItem.quantity = (orderItem.quantity + 1)
+    elif action == 'remove':
+        orderItem.quantity = (orderItem.quantity - 1)
+
+    orderItem.save()
+
+    if orderItem.quantity <= 0:
+        orderItem.delete()
+
+    return JsonResponse('Item was added', safe=False)
