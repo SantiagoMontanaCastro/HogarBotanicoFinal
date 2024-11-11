@@ -4,9 +4,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
 from .forms import TaskForm
-from .models import Task
+from .models import *
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 
 
@@ -40,15 +41,19 @@ def singup(request):
             "error": 'Contraseñas no coinciden'
         })
 
+
 @login_required
 def task(request):
     tasks = Task.objects.filter(user=request.user, datecompleted__isnull=True)
     return render(request, 'tasks.html', {'tasks': tasks})
 
+
 @login_required
 def task_completed(request):
-    tasks = Task.objects.filter(user=request.user, datecompleted__isnull=False).order_by('-datecompleted')
+    tasks = Task.objects.filter(
+        user=request.user, datecompleted__isnull=False).order_by('-datecompleted')
     return render(request, 'tasks.html', {'tasks': tasks})
+
 
 @login_required
 def create_task(request):
@@ -69,6 +74,7 @@ def create_task(request):
                 'error': 'por favor introduce un dato valido'
             })
 
+
 @login_required
 def task_detail(request, task_id):
     if request.method == 'GET':
@@ -84,6 +90,7 @@ def task_detail(request, task_id):
         except ValueError:
             return render(request, 'task_detail.html', {'task': task, 'form': form, 'error': "Error al cambiar la tarea"})
 
+
 @login_required
 def complete_task(request, task_id):
     task = get_object_or_404(Task, pk=task_id, user=request.user)
@@ -92,12 +99,14 @@ def complete_task(request, task_id):
         task.save()
         return redirect('task')
 
+
 @login_required
 def delete_task(request, task_id):
     task = get_object_or_404(Task, pk=task_id, user=request.user)
     if request.method == 'POST':
         task.delete()
         return redirect('task')
+
 
 @login_required
 def singout(request):
@@ -120,3 +129,29 @@ def singin(request):
             })
         else:
             return redirect('task')
+
+
+def store(request):
+    products = Product.objects.all()
+    context = {'products': products}
+    return render(request, 'store/store.html', context)
+
+
+def cart(request):
+    context = {}
+    return render(request, 'store/Cart.html', context)
+
+
+def checkout(request):
+    context = {}
+    return render(request, 'store/Checkout.html', context)
+
+
+def fav(request):
+    context = {}
+    return render(request, 'store/fav.html', context)
+
+def plants(request):
+    plantas = Plants.objects.all()
+    context = {'plants': plants}  # Asegúrate de que el nombre es 'plantas'
+    return render(request, 'store/plants.html', context)

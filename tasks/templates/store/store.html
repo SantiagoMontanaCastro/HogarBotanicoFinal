@@ -1,0 +1,21 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+<main class="container">
+    <div class="row">
+        {% for product in products %}
+        <div class="col-lg-4 mb-4"> <!-- Añadimos un margen inferior para separar filas -->
+            <div class="box-element product">
+                <img class="thumbnail" src="{{product.image.url}}" style="width:100%; height:auto;">
+                <h6><strong>{{ product.name }}</strong></h6>
+                <hr>
+                <button class="btn btn-outline-secondary add-btn">Añadir al carrito</button>
+                <a class="btn btn-outline-success" href="#">Ver</a>
+                <h4 style="float: right;">${{ product.price|floatformat:3 }}</h4>
+            </div>
+        </div>
+        {% endfor %}
+    </div> <!-- Cierra la fila -->
+</main>
+
+{% endblock content %}
