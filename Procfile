@@ -1,0 +1,1 @@
+web: gunicron DjangoHogar.wsgi --log-file -
