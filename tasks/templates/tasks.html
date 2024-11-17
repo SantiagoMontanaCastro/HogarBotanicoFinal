@@ -1,35 +1,43 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} 
 
-{% block content %}
+{% block content %}  <!-- Define el bloque de contenido específico para esta página -->
 
-<main class="container">
-  <div class="row">
-    <div class="col-md-6 offset-md-3">
-      <h1 class="text-center display-4 py-5">Consultas</h1>
+<h1>Ingresar</h1>  
 
-<ul class="list-group">
-    {% for task in  tasks %}
-<a class="list-group-item" href="{% url 'task_detail' task.id %}">
-  <header class="d-flex justify-content-between">
-    {% if task.important %}
-  <h1 class="fw-bold text-success">{{task.title}}</h1>
-  <p>{{task.user.username}}</p>
-  {% else %}
-  <h1 class="fw-bold">{{task.title}}</h1>  
-    {% endif %}
-  </header>
-  <p>{{task.description}}</p>
-  
-  <p>{{task.datecompleted|date:'M J Y:i'}}</p>
+{{error}}  <!-- Muestra cualquier mensaje de error (como error de validación de credenciales) -->
 
-</a>
-{% endfor %}
-</ul>
+<main class="container">  <!-- Contenedor principal con espacio para la estructura -->
+    <div class="row">  <!-- Fila de Bootstrap para centrar el formulario -->
+        <section class="col-md-4 offset-md-4 mt-5">  <!-- Sección centrada en la página con márgenes y espacio superior -->
+            <form action="/singin/" method="POST" class="card card-body">  <!-- Formulario de inicio de sesión que se envía mediante POST -->
+
+                {{error}}  <!-- Muestra los errores de inicio de sesión si los hay -->
+
+                {% csrf_token %}  <!-- Etiqueta de seguridad de Django para prevenir ataques CSRF -->
+
+                <h1 class="text-center">Ingresar</h1>  <!-- Título de la sección de ingreso centrado -->
+
+                {{error}}  <!-- Muestra cualquier error que se haya pasado desde la vista -->
+
+                {% csrf_token %}  <!-- Token CSRF adicional (duplicado) que parece innecesario -->
+
+                <div class="mb-3">  <!-- Contenedor para el campo de nombre de usuario -->
+                    <label for="username">Nombre de usuario: </label>  <!-- Etiqueta para el campo de entrada -->
+                    <input type="text" name="username" id="username" class="form-control" placeholder="Escribe tu nombre de usuario">  <!-- Campo de texto para el nombre de usuario -->
+                </div>
+
+                <div class="mb-3">  <!-- Contenedor para el campo de contraseña -->
+                    <label for="password">Contraseña: </label>  <!-- Etiqueta para el campo de entrada de contraseña -->
+                    <input type="password" name="password" id="password1" class="form-control" placeholder="Escribe tu Contraseña">  <!-- Campo de contraseña -->
+                </div>
+
+                <button class="btn btn-success">  <!-- Botón de enviar formulario -->
+                    Ingresar
+                </button>
+
+        </section>
     </div>
-  </div>
-
 </main>
 
-
+</form>  <!-- Cierra el formulario, pero hay un cierre de etiqueta innecesario -->
 {% endblock %}
-

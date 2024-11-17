@@ -1,19 +1,22 @@
-{% extends 'store/main.html' %}
-{% load static %}
-{% block content %}
-<main class="container">
-    <div class="row">
-        {% for plant in plants %}
-        <div class="col-lg-4">
-            <img class="thumbnail" src="{{ plant.image.url }}">  <!-- 'plant', no 'plants' -->
-            <div class="box-element product">
-                <h6><strong>{{ plant.name }}</strong></h6>  <!-- 'plant', no 'plants' -->
-                <hr>
-                <a class="btn btn-outline-secondary add-btn" href="{% url 'fav' %}?plant_id={{ plant.id }}">Añadir a favoritos</a>   
-                <a class="btn btn-outline-success" href="#">Ver</a>
+{% extends 'store/main.html' %}  <!-- Hereda la plantilla base 'main.html' para mantener la estructura general de la página -->
+{% load static %} 
+
+{% block content %}  <!-- Define el bloque de contenido específico para esta página -->
+
+<main class="container">  
+    <div class="row">  
+        {% for plant in plants %}  <!-- Ciclo que recorre cada planta dentro de la lista 'plants' -->
+        <div class="col-lg-4">  
+            <img class="thumbnail" src="{{ plant.image.url }}">  <!-- Muestra la imagen de la planta. Se obtiene la URL de la imagen -->
+            <div class="box-element product"> 
+                <h6><strong>{{ plant.name }}</strong></h6>  <!-- Muestra el nombre de la planta -->
+                <hr>  
+                <a class="btn btn-outline-secondary add-btn" href="{% url 'fav' %}?plant_id={{ plant.id }}">Añadir a favoritos</a>  <!-- Botón para añadir la planta a favoritos. Usa la URL 'fav' con el id de la planta -->
+                <a class="btn btn-outline-success" href="#">Ver</a>  
             </div>
         </div>
-        {% endfor %}
+        {% endfor %}  <!-- Fin del ciclo 'for', lo que muestra todas las plantas -->
     </div>
 </main>
+
 {% endblock content %}

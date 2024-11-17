@@ -1,24 +1,26 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %}  <!-- Hereda la plantilla base 'base.html' para mantener la estructura general de la página -->
 
-{% block content %}
+{% block content %}  
 
-{{error}}
-<main class="container">
-    <div class=" row">
-        <div class="col-md-4 offset-md-4 py-5">
-            <form action="/task/create" method="POST" class="card card-body">
+{{error}}  <!-- Muestra cualquier mensaje de error pasado al contexto -->
 
-                <h1>Crear consulta</h1>
+<main class="container">  
+    <div class="row">  
+        <div class="col-md-4 offset-md-4 py-5"> 
+            <form action="/task/create" method="POST" class="card card-body">  <!-- Formulario de creación de tarea. Usa método POST para enviar los datos -->
+                
+                <h1>Crear consulta</h1> 
+
+                {% csrf_token %}  <!-- Añade un token CSRF para proteger el formulario contra ataques CSRF -->
+
+                {{form}}  <!-- Muestra el formulario dinámicamente. Este se pasa desde la vista, permitiendo su validación y procesamiento en el backend -->
             
-                {% csrf_token %}
-            
-                {{form}}
-            
-                <button class="btn btn-success">
+                <button class="btn btn-success">  <!-- Botón de envío del formulario con estilo Bootstrap 'btn-success' -->
                     Save
                 </button>
             </form>
         </div>
     </div>
 </main>
+
 {% endblock %}

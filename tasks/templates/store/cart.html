@@ -4,21 +4,25 @@
 <main class="container">
     <div class="row">
         <div class="col-lg-12">
+            <!-- Sección que contiene la tabla con los detalles del carrito y el botón para continuar comprando -->
             <div class="box-element">
 
+                <!-- Botón para volver a la tienda -->
                 <a class="btn btn-outline-dark" href="{% url 'store' %}">&#x2190; Continuar comprando</a>
 
                 <br>
                 <br>
+                <!-- Tabla que muestra el resumen del carrito: número de ítems, total y botón de checkout -->
                 <table class="table">
                     <tr>
                         <th>
-                            <h5>Items: <strong>{{order.get_cart_items}}</strong></h5>
+                            <h5>Items: <strong>{{order.get_cart_items}}</strong></h5> <!-- Número total de ítems en el carrito -->
                         </th>
                         <th>
-                            <h5>Total:<strong>${{order.get_cart_total|floatformat:3}}</strong></h5>
+                            <h5>Total:<strong>${{order.get_cart_total|floatformat:3}}</strong></h5> <!-- Total del carrito con formato -->
                         </th>
                         <th>
+                            <!-- Botón para proceder al checkout -->
                             <a style="float:right; margin:5px;" class="btn btn-success"
                                 href="{% url 'checkout' %}">Checkout</a>
                         </th>
@@ -28,36 +32,46 @@
             </div>
 
             <br>
+            <!-- Sección que muestra la lista de ítems en el carrito -->
             <div class="box-element">
+                <!-- Cabecera de la tabla de ítems -->
                 <div class="cart-row">
-                    <div style="flex: 2;"></div>
-                    <div style="flex: 2;"><strong>Item</strong></div>
-                    <div style="flex: 2;"><strong>Precio</strong></div>
-                    <div style="flex: 2;"><strong>Cantidad</strong></div>
-                    <div style="flex: 2;"><strong>Total</strong></div>
+                    <div style="flex: 2;"></div> <!-- Espacio vacío para alineación -->
+                    <div style="flex: 2;"><strong>Item</strong></div> <!-- Columna para el nombre del producto -->
+                    <div style="flex: 2;"><strong>Precio</strong></div> <!-- Columna para el precio del producto -->
+                    <div style="flex: 2;"><strong>Cantidad</strong></div> <!-- Columna para la cantidad de ítems -->
+                    <div style="flex: 2;"><strong>Total</strong></div> <!-- Columna para el total por ítem -->
                 </div>
+                <!-- Iteración para mostrar cada ítem en el carrito -->
                 {% for item in items %}
                 <div class="cart-row">
+                    <!-- Columna con la imagen del producto -->
                     <div style="flex:2"><img class="row-image" src="{{ item.product.imageURL }}" alt="{{ item.product.name }}">
 
                     </div>
+                    <!-- Columna con el nombre del producto -->
                     <div style="flex:2">
                         <p>{{item.product.name}}</p>
                     </div>
+                    <!-- Columna con el precio del producto -->
                     <div style="flex:1">
                         <p>${{item.product.price|floatformat:3}}</p>
                     </div>
+                    <!-- Columna con la cantidad de ítems y botones para ajustar la cantidad -->
                     <div style="flex:1">
-                        <p class="quantity">{{item.quantity}}</p>
+                        <p class="quantity">{{item.quantity}}</p> <!-- Muestra la cantidad actual del producto -->
                         <div class="quantity">
+                            <!-- Botón para incrementar la cantidad -->
                             <img data-product="{{item.product.id}}" data-action="add" class="chg-quantity update-cart" src="{% static  'images/arrow-up.png' %}">
 
+                            <!-- Botón para reducir la cantidad -->
                             <img data-product="{{item.product.id}}" data-action="remove" class="chg-quantity update-cart" src="{% static  'images/arrow-down.png' %}">
                         </div>
                     </div>
+                    <!-- Columna con el total por ítem (cantidad * precio) -->
                     <div style="flex: 1;">${{item.get_total|floatformat:3}}</div>
                 </div>
-                {% endfor %}
+                {% endfor %} <!-- Fin de la iteración sobre los ítems -->
 
             </div>
         </div>

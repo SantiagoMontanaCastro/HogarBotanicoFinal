@@ -1,41 +1,47 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %}  <!-- Hereda la plantilla base 'base.html' para mantener la estructura general de la página -->
 
-{% block content %}
+{% block content %}  <!-- Define el bloque de contenido específico para esta página -->
 
-<main class="container">
-    <div class="row">
-        <div class="col-md-4 offset-md-4 py-5">
-            <h1>{{task.title}}</h1>
+<h1>Ingresar</h1>  <!-- Título principal de la página de inicio de sesión -->
 
-            {{error}}
-            <form method="POST">
-                {% csrf_token %}
-                {{form.as_p}}
-                <button class="btn btn-primary btn btn-success">
-                    Update
+{{error}}  <!-- Muestra cualquier mensaje de error (como error de validación de credenciales) -->
+
+<main class="container"> 
+    <div class="row"> 
+        <section class="col-md-4 offset-md-4 mt-5">  
+            <form action="/singin/" method="POST" class="card card-body">  <!-- Formulario de inicio de sesión que se envía mediante POST -->
+
+                {{error}}  <!-- Muestra los errores de inicio de sesión si los hay -->
+
+                {% csrf_token %}  <!-- Etiqueta de seguridad de Django para prevenir ataques CSRF -->
+
+                <h1 class="text-center">Ingresar</h1>  
+
+                {{error}}  <!-- Muestra cualquier error que se haya pasado desde la vista -->
+
+                {% csrf_token %}  <!-- Token CSRF adicional (duplicado) que parece innecesario -->
+
+                <div class="mb-3">  <!-- Contenedor para el campo de nombre de usuario -->
+                    <label for="username">Nombre de usuario: </label>  <!-- Etiqueta para el campo de entrada -->
+                    <input type="text" name="username" id="username" class="form-control" placeholder="Escribe tu nombre de usuario">  <!-- Campo de texto para el nombre de usuario -->
+                </div>
+
+                <div class="mb-3">  <!-- Contenedor para el campo de contraseña -->
+                    <label for="password">Contraseña: </label>  <!-- Etiqueta para el campo de entrada de contraseña -->
+                    <input type="password" name="password" id="password1" class="form-control" placeholder="Escribe tu Contraseña">  <!-- Campo de contraseña -->
+                </div>
+
+                <button class="btn btn-success">  <!-- Botón de enviar formulario -->
+                    Ingresar
                 </button>
-            </form>
 
-            <div class="mt-5 d-flex">
-                <form action="{% url 'complete_task' task.id %}" method="POST" class="d-inline-block">
-                    {% csrf_token %}
-                    <button class="btn btn-success">
-                        Completado
-                    </button>
-                </form>
-
-                <form action="{% url 'delete_task' task.id %}" method="POST" class="d-inline-block ms-2">
-                    {% csrf_token %}
-                    <button class="btn btn-danger">
-                        Delete
-                    </button>
-                </form>
-            </div>
-        </div>
+        </section>
     </div>
 </main>
 
+</form>  <!-- Cierra el formulario, pero hay un cierre de etiqueta innecesario -->
 {% endblock %}
+
 
 
 

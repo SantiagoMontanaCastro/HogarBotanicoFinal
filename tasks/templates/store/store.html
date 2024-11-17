@@ -1,21 +1,34 @@
-{% extends 'store/main.html' %}
-{% load static %}
-{% block content %}
-<main class="container">
-    <div class="row">
-        {% for product in products %}
-        <div class="col-lg-4 mb-4"> <!-- Añadimos un margen inferior para separar filas -->
-            <div class="box-element product">
+{% extends 'store/main.html' %}  <!-- Hereda la plantilla base 'main.html' para mantener la estructura general de la página -->
+{% load static %}  
+
+{% block content %}  
+
+<main class="container">  
+    <div class="row">  
+        {% for product in products %} 
+        <div class="col-lg-4 mb-4">  
+            <div class="box-element product">  
+                
+                <!-- Imagen del producto con un estilo que ajusta su ancho al 100% y altura automática -->
                 <img class="thumbnail" src="{{product.image.url}}" style="width:100%; height:auto;">
+                
+                <!-- Nombre del producto en negrita -->
                 <h6><strong>{{ product.name }}</strong></h6>
-                <hr>
+                
+                <hr>  <!-- Línea horizontal para separar el nombre del producto de los botones de acción -->
+
+                <!-- Botón para añadir el producto al carrito. Usa atributos 'data-product' y 'data-action' para identificar el producto y acción -->
                 <button data-product="{{product.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">Añadir al carrito</button>
+                
+                <!-- Botón para ver más detalles del producto, aún sin enlace específico -->
                 <a class="btn btn-outline-success" href="#">Ver</a>
+                
+                <!-- Muestra el precio del producto alineado a la derecha. El precio es formateado con tres decimales -->
                 <h4 style="float: right;">${{ product.price|floatformat:3 }}</h4>
             </div>
         </div>
-        {% endfor %}
-    </div> <!-- Cierra la fila -->
+        {% endfor %}  <!-- Fin del ciclo 'for', lo que muestra todos los productos -->
+    </div> <!-- Cierra la fila de productos -->
 </main>
 
-{% endblock content %}
+{% endblock content %}  <!-- Fin del bloque de contenido -->

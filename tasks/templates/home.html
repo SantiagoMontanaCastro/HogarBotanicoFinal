@@ -1,25 +1,30 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %}  <!-- Hereda la plantilla base 'base.html' para mantener la estructura general de la página -->
 
-{% block content %}
-<main class="container py-5">
+{% block content %}  <!-- Define el bloque de contenido específico para esta página -->
 
-    <section class="card card-body">
-        <h1 class="text-center">Hogar botanico</h1>
+<main class="container py-5">  
+  
+    <section class="card card-body"> 
+        <h1 class="text-center">Hogar Botánico</h1>  <!-- Título principal centrado de la página -->
+        
+        <!-- Descripción breve de la plataforma 'Hogar Botánico' -->
         <p>Hogar Botánico es una plataforma dedicada a los amantes de las plantas, que ofrece una experiencia completa para quienes desean aprender, cuidar y ampliar su colección botánica. Desde plantas decorativas hasta accesorios esenciales, nuestro catálogo está diseñado para cubrir todas las necesidades de jardinería. Con funcionalidades que permiten a los usuarios gestionar sus propias plantas, recibir notificaciones de riego y personalizar su experiencia, Hogar Botánico facilita el cuidado de la naturaleza en el hogar. Además, la plataforma está equipada con opciones de compra simples y rápidas, listas de favoritos, y medidas avanzadas de seguridad para proteger la información de los usuarios.</p>
-        <div class="text-center">
-            {% if user.is_authenticated %}
-
+        
+        <div class="text-center">  <!-- Contenedor de texto centrado para los botones -->
+            {% if user.is_authenticated %}  <!-- Verifica si el usuario está autenticado -->
+                <!-- Si el usuario está autenticado, no muestra nada, de lo contrario, muestra los botones de ingreso y registro -->
             {% else %}
-            <a class="btn btn-success" href="/singin"> 
-                Ingresar
-            </a>
-            <a class="btn btn-success" href="/singup"> 
-                Registarse</a>
-                {% endif %}
+                <a class="btn btn-success" href="/singin">  <!-- Enlace de inicio de sesión -->
+                    Ingresar
+                </a>
+                <a class="btn btn-success" href="/singup">  <!-- Enlace de registro -->
+                    Registarse
+                </a>
+            {% endif %}
         </div>
-    
-    
-    </section>
 
-</main>
+    </section>  <!-- Cierra la sección de la tarjeta -->
+
+</main>  <!-- Cierra el contenedor principal -->
+
 {% endblock %}

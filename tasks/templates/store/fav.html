@@ -1,19 +1,31 @@
 {% extends 'store/main.html' %}
 {% block content %}
 <main class="container">
+    <!-- Título de la sección de plantas favoritas -->
     <h2>Tus Plantas Favoritas</h2>
+
+    <!-- Contenedor de las plantas favoritas -->
     <div class="row">
+        <!-- Si existe un mensaje en el contexto (por ejemplo, una confirmación o error), se muestra aquí -->
         {% if message %}
             <p>{{ message }}</p>
         {% endif %}
+
+        <!-- Bucle para iterar a través de las plantas favoritas del usuario -->
         {% for favorite in favorites %}
         <div class="col-lg-4">
+            <!-- Imagen de la planta favorita -->
             <img class="thumbnail" src="{{ favorite.plant.image.url }}">
+
+            <!-- Contenedor con la información y las acciones para la planta -->
             <div class="box-element product">
+                <!-- Nombre de la planta -->
                 <h6><strong>{{ favorite.plant.name }}</strong></h6>
+                <!-- Descripción de la planta -->
                 <p>{{ favorite.plant.description }}</p>
+                <!-- Botón para ver más detalles de la planta -->
                 <a class="btn btn-outline-success" href="#">Ver</a>
-                <!-- Botón para eliminar de favoritos -->
+                <!-- Botón para eliminar la planta de favoritos -->
                 <a class="btn btn-outline-danger" href="{% url 'fav' %}?remove_id={{ favorite.plant.id }}">Eliminar de Favoritos</a>
             </div>
         </div>
